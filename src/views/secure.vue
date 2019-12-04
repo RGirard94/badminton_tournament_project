@@ -1,0 +1,68 @@
+<template>
+    <div id="secure">
+        <div id="information">
+            <h1>You</h1>
+            <p>
+                {{ firstName }} {{ lastName }} {{ shRanking }} {{ dhRanking }} {{ dmRanking }} {{ licenseId }}
+            </p>
+        </div>
+
+        <div id="tournamentList">
+            <h1>Tournament List</h1>
+            <div>
+                <button v-on:click="tournamentName">Add a tournament</button>
+                <div v-if="success">
+                    <input type="text" v-on:keyup.enter="addTournament">
+                </div>
+            </div>
+            <div>
+                <ul>
+                    <li v-for="item in items">
+                        {{ item }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    export default {
+        name: 'Secure',
+        data() {
+            return {
+                firstName: 'Romain',
+                lastName: 'GIRO',
+                shRanking: 'D8',
+                dhRanking: 'D8',
+                dmRanking: 'R6',
+                licenseId: '00498401',
+                success: false,
+                tournamentToAdd: '',
+                items: [],
+            };
+        },
+        methods: {
+            tournamentName() {
+                this.success = true
+            },
+            addTournament() {
+                this.items.push(this.tournamentToAdd)
+            }
+        }
+    }
+</script>
+
+<style>
+    #information {
+        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+        background-color: #FFFFFF;
+        border: 1px solid #CCCCCC;
+        padding: 20px;
+        margin-top: 10px;
+    }
+</style>
