@@ -10,25 +10,21 @@
         <div id="tournamentList">
             <h1>Tournament List</h1>
             <div>
-                <button v-on:click="tournamentName">Add a tournament</button>
+                <button @click="tournamentName">Add a tournament</button>
                 <div v-if="success">
                     <input type="text" v-model="tournamentToAdd" v-on:keyup.enter="addTournament">
                 </div>
             </div>
             <div>
                 <ul>
-                    <li v-for="item in items">
-                        {{ item }}
-                        <button v-on:click="register">Register to this tournament</button>
-                        <div v-if="registerSuccess">
-                            <input type="text" v-model="tournamentCategory1">
-                            <input type="text" v-model="tournamentCategory2">
-                            <input type="text" v-model="tournamentCategory3">
-                            <button v-on:click="addRegistration">Add registration</button>
+                    <li v-for="tournament in tournamentList">
+                        {{ tournament.name }}
+                        <button v-on:click="register(tournament.name)">Register to this tournament</button>
+                        <div v-if="tournament.participation">
+                            <p>participe</p>
                         </div>
                         <div v-else>
                         </div>
-                        <p v-if="registered">registered</p>
                     </li>
                 </ul>
             </div>
@@ -48,14 +44,8 @@
                 dmRanking: 'R6',
                 licenseId: '00498401',
                 success: false,
-                registerSuccess: false,
-                registerd: false,
                 tournamentToAdd: '',
-                items: [],
-                tournamentCategory1: '',
-                tournamentCategory2: '',
-                tournamentCategory3: '',
-                tournaments: [],
+                tournamentList: [],
             };
         },
         methods: {
@@ -63,16 +53,16 @@
                 this.success = true
             },
             addTournament() {
-                this.items.push(this.tournamentToAdd)
+                this.tournamentList.push({ name: this.tournamentToAdd, participation: false })
             },
-            register() {
-                this.registerSuccess = true
+            register(tournamentName) {
+                console.log(tournamentName)
+                for (var i = 0; i<this.tournamentList.length; i++){
+                    if(this.tournamentList[i].name == tournamentName) {
+                        this.tournamentList[i].participation = true
+                    }
+                }
             },
-            addRegistration() {
-                this.tournaments.push([this.tournamentCategory1, this.tournamentCategory2, this.tournamentCategory3])
-                this.registered = true
-                this.registerSuccess = false
-            }
         }
     }
 </script>
