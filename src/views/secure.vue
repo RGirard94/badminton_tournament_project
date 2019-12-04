@@ -19,6 +19,16 @@
                 <ul>
                     <li v-for="item in items">
                         {{ item }}
+                        <button v-on:click="register">Register to this tournament</button>
+                        <div v-if="registerSuccess">
+                            <input type="text" v-model="tournamentCategory1">
+                            <input type="text" v-model="tournamentCategory2">
+                            <input type="text" v-model="tournamentCategory3">
+                            <button v-on:click="addRegistration">Add registration</button>
+                        </div>
+                        <div v-else>
+                        </div>
+                        <p v-if="registered">registered</p>
                     </li>
                 </ul>
             </div>
@@ -38,8 +48,14 @@
                 dmRanking: 'R6',
                 licenseId: '00498401',
                 success: false,
+                registerSuccess: false,
+                registerd: false,
                 tournamentToAdd: '',
                 items: [],
+                tournamentCategory1: '',
+                tournamentCategory2: '',
+                tournamentCategory3: '',
+                tournaments: [],
             };
         },
         methods: {
@@ -48,6 +64,14 @@
             },
             addTournament() {
                 this.items.push(this.tournamentToAdd)
+            },
+            register() {
+                this.registerSuccess = true
+            },
+            addRegistration() {
+                this.tournaments.push([this.tournamentCategory1, this.tournamentCategory2, this.tournamentCategory3])
+                this.registered = true
+                this.registerSuccess = false
             }
         }
     }
