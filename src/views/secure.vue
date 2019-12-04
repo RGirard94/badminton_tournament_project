@@ -12,7 +12,7 @@
             <div>
                 <button v-on:click="tournamentName">Add a tournament</button>
                 <div v-if="success">
-                    <input type="text" v-on:keyup.enter="addTournament">
+                    <input type="text" v-model="tournamentToAdd" v-on:keyup.enter="addTournament">
                 </div>
             </div>
             <div>
