@@ -5,6 +5,7 @@
             <p>
                 {{ firstName }} {{ lastName }} {{ shRanking }} {{ dhRanking }} {{ dmRanking }} {{ licenseId }}
             </p>
+            <p> Number of inscriptions : {{ numberOfInscription }} </p>
         </div>
 
         <div id="tournamentList">
@@ -24,7 +25,9 @@
 
                         {{ tournament.name }}
 
-                        <button v-on:click="register(tournament.name)">Register to this tournament</button>
+                        <button v-if="!tournament.participation" v-on:click="register(tournament.name)">Register to this tournament</button>
+
+                        <button v-else v-on:click="remove(tournament.name)">Remove from this tournament</button>
 
                         <div v-if="tournament.participation">
 
@@ -54,6 +57,7 @@
         name: 'Secure',
         data() {
             return {
+                numberOfInscription: 0,
                 firstName: 'Romain',
                 lastName: 'GIRO',
                 shRanking: 'D8',
@@ -62,7 +66,7 @@
                 licenseId: '00498401',
                 success: false,
                 tournamentToAdd: '',
-                tournamentList: []
+                tournamentList: [],
             };
         },
         methods: {
@@ -79,6 +83,19 @@
                 for (var i = 0; i<this.tournamentList.length; i++){
                     if(this.tournamentList[i].name == tournamentName) {
                         this.tournamentList[i].participation = true
+                        this.numberOfInscription++
+                    }
+                }
+            },
+
+            remove(tournamentName) {
+                for (var i = 0; i<this.tournamentList.length; i++){
+                    if(this.tournamentList[i].name == tournamentName) {
+                        this.tournamentList[i].participation = false
+                        this.tournamentList[i].SH = 'NO'
+                        this.tournamentList[i].DH = 'NO'
+                        this.tournamentList[i].DM = 'NO'
+                        this.numberOfInscription--
                     }
                 }
             },
