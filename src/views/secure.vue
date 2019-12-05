@@ -21,7 +21,13 @@
                         {{ tournament.name }}
                         <button v-on:click="register(tournament.name)">Register to this tournament</button>
                         <div v-if="tournament.participation">
-                            <p>participe</p>
+                            <input type="checkbox" id='SH' value=true v-model="participationChoices.SH">
+                            <label for="SH">SH</label>
+                            <input type="checkbox" id="DH" value=true v-model="participationChoices.DH">
+                            <label for="DH">DH</label>
+                            <input type="checkbox" id="DM" value=true v-model="participationChoices.DM">
+                            <label for="DM">DM</label>
+                            <button v-on:click="addParticipationChoices(tournament.name)">OK</button>
                         </div>
                         <div v-else>
                         </div>
@@ -45,7 +51,12 @@
                 licenseId: '00498401',
                 success: false,
                 tournamentToAdd: '',
-                tournamentList: [],
+                participationChoices: {
+                    SH: false,
+                    DH: false,
+                    DM: false
+                },
+                tournamentList: []
             };
         },
         methods: {
@@ -53,16 +64,34 @@
                 this.success = true
             },
             addTournament() {
-                this.tournamentList.push({ name: this.tournamentToAdd, participation: false })
+                this.tournamentList.push({ name: this.tournamentToAdd, participation: false, SH: '', DH: '', DM: '' })
             },
             register(tournamentName) {
-                console.log(tournamentName)
                 for (var i = 0; i<this.tournamentList.length; i++){
                     if(this.tournamentList[i].name == tournamentName) {
                         this.tournamentList[i].participation = true
                     }
                 }
             },
+            addParticipationChoices(tournamentName) {
+                for (var i = 0; i<this.tournamentList.length; i++){
+                    if(this.tournamentList[i].name == tournamentName) {
+                        if(this.participationChoices.SH == true){
+                            this.tournamentList[i].SH = 'OK'
+                            this.participationChoices.SH = false
+                        }
+                        if(this.participationChoices.DH == true){
+                            this.tournamentList[i].DH = 'OK'
+                            this.participationChoices.DH = false
+                        }
+                        if(this.participationChoices.DM == true){
+                            this.tournamentList[i].DM = 'OK'
+                            this.participationChoices.DM = false
+                        }
+                    }
+                }
+                console.log(this.tournamentList)
+            }
         }
     }
 </script>
