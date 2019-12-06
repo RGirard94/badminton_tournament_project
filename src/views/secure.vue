@@ -53,11 +53,26 @@
             </div>
 
             <div v-if="showTournament" :id="showTournament ? 'tournamentRight' : '' ">
-                <ul>
-                    <li>date : {{ tournamentInformation.date }}</li>
-                    <li>address : {{ tournamentInformation.address }}</li>
-                    <li>players : {{ tournamentInformation.players }}</li>
-                </ul>
+                <table>
+                    <tr>
+                        <td>date</td>
+                        <td>{{ tournamentInformation.date }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>address</td>
+                        <td>{{ tournamentInformation.address }}</td>
+                    </tr>
+
+                    <tr>
+                        <td>players</td>
+                        <td>
+                            <ul id="tournamentInformation">
+                                <li v-for="player in tournamentInformation.players">{{player}}</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -202,14 +217,14 @@
     #tournamentLeft {
         float: left;
         text-align: center;
-        padding-left: 100px;
+        padding-left: 200px;
         padding-top: 50px;
     }
 
     #tournamentRight {
         float: right;
         text-align: center;
-        padding-right: 100px;
+        padding-right: 200px;
         padding-top: 150px;
     }
 
@@ -218,5 +233,14 @@
         text-align: center;
         margin-left:0;
         padding-left:0;
+    }
+
+    table {
+    width: 100%;
+    }
+
+    td, th {
+    border: thin solid #000000;
+    width: 50%;
     }
 </style>
