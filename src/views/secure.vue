@@ -108,16 +108,37 @@
             },
 
             addTournament() {
-                this.tournamentList.push({
-                    name: this.tournamentToAdd,
-                    participation: false,
-                    SH: 'NO',
-                    DH: 'NO',
-                    DM: 'NO',
-                    date: 'JJ/MM/AAAA',
-                    address: 'address',
-                    players: ['Toto', 'Tata', 'Titi', 'Tutu']
-                })
+                if(this.tournamentList.length === 0){
+                    this.tournamentList.push({
+                            name: this.tournamentToAdd,
+                            participation: false,
+                            SH: 'NO',
+                            DH: 'NO',
+                            DM: 'NO',
+                            date: 'JJ/MM/AAAA',
+                            address: 'address',
+                            players: ['Toto', 'Tata', 'Titi', 'Tutu']
+                        })
+                } else {
+                    var flag = false
+                    for (var i = 0; i<this.tournamentList.length; i++){
+                        if (this.tournamentList[i].name === this.tournamentToAdd) {
+                            flag = true
+                        }
+                    }
+                    if (flag === false){
+                        this.tournamentList.push({
+                            name: this.tournamentToAdd,
+                            participation: false,
+                            SH: 'NO',
+                            DH: 'NO',
+                            DM: 'NO',
+                            date: 'JJ/MM/AAAA',
+                            address: 'address',
+                            players: ['Toto', 'Tata', 'Titi', 'Tutu']
+                        })
+                    }
+                }
             },
 
             register(tournamentName) {
