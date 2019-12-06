@@ -8,44 +8,55 @@
             <p> Number of inscriptions : {{ numberOfInscription }} </p>
         </div>
 
-        <div id="tournamentList">
-            <h1>Tournament List</h1>
-            <div>
+        <div>
+            <div :id="showTournament ? 'tournamentLeft' : '' ">
+                <div id="tournamentList">
+                    <h1>Tournament List</h1>
+                    <div>
 
-                <button @click="tournamentName">Add a tournament</button>
+                        <button @click="tournamentName">Add a tournament</button>
 
-                <div v-if="success">
-                    <input type="text" v-model="tournamentToAdd" v-on:keyup.enter="addTournament">
+                        <div v-if="success">
+                            <input type="text" v-model="tournamentToAdd" v-on:keyup.enter="addTournament">
+                        </div>
+
+                    </div>
+                    <div>
+                        <ul>
+                            <li v-for="tournament in tournamentList">
+
+                                <p v-on:click="showTournamentInformation(tournament.name)">{{ tournament.name }}</p>
+
+                                <button v-if="!tournament.participation" v-on:click="register(tournament.name)">Register to this tournament</button>
+                                <button v-else v-on:click="remove(tournament.name)">Remove from this tournament</button>
+
+                                <div v-if="tournament.participation">
+
+                                    <input type="checkbox" id='SH' v-on:click="addSingleChoice(tournament.name)">
+                                    <label for="SH">SH</label>
+
+                                    <input type="checkbox" id='DH' v-on:click="addDoubleChoice(tournament.name)">
+                                    <label for="DH">DH</label>
+
+                                    <input type="checkbox" id='DM' v-on:click="addMixedChoice(tournament.name)">
+                                    <label for="DM">DM</label>
+
+                                </div>
+
+                                <div v-else>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-
             </div>
-            <div>
+
+            <div v-if="showTournament" :id="showTournament ? 'tournamentRight' : '' ">
                 <ul>
-                    <li v-for="tournament in tournamentList">
-
-                        {{ tournament.name }}
-
-                        <button v-if="!tournament.participation" v-on:click="register(tournament.name)">Register to this tournament</button>
-
-                        <button v-else v-on:click="remove(tournament.name)">Remove from this tournament</button>
-
-                        <div v-if="tournament.participation">
-
-                            <input type="checkbox" id='SH' v-on:click="addSingleChoice(tournament.name)">
-                            <label for="SH">SH</label>
-
-                            <input type="checkbox" id='DH' v-on:click="addDoubleChoice(tournament.name)">
-                            <label for="DH">DH</label>
-
-                            <input type="checkbox" id='DM' v-on:click="addMixedChoice(tournament.name)">
-                            <label for="DM">DM</label>
-
-                        </div>
-
-                        <div v-else>
-                        </div>
-
-                    </li>
+                    <li>date : {{ tournamentInformation.date }}</li>
+                    <li>address : {{ tournamentInformation.address }}</li>
+                    <li>players : {{ tournamentInformation.players }}</li>
                 </ul>
             </div>
         </div>
@@ -65,8 +76,14 @@
                 dmRanking: 'R6',
                 licenseId: '00498401',
                 success: false,
+                showTournament: false,
                 tournamentToAdd: '',
                 tournamentList: [],
+                tournamentInformation: {
+                    date: '',
+                    address: '',
+                    players: []
+                }
             };
         },
         methods: {
@@ -76,7 +93,16 @@
             },
 
             addTournament() {
-                this.tournamentList.push({ name: this.tournamentToAdd, participation: false, SH: 'NO', DH: 'NO', DM: 'NO' })
+                this.tournamentList.push({
+                    name: this.tournamentToAdd,
+                    participation: false,
+                    SH: 'NO',
+                    DH: 'NO',
+                    DM: 'NO',
+                    date: 'JJ/MM/AAAA',
+                    address: 'address',
+                    players: ['Toto', 'Tata', 'Titi', 'Tutu']
+                })
             },
 
             register(tournamentName) {
@@ -129,6 +155,22 @@
                     }
                 }
             },
+
+            showTournamentInformation(tournamentName) {
+                for (var i = 0; i<this.tournamentList.length; i++){
+                    if(this.tournamentList[i].name === tournamentName && this.showTournament === false){
+                        this.showTournament = true
+                        this.tournamentInformation.date = this.tournamentList[i].date
+                        this.tournamentInformation.address = this.tournamentList[i].address
+                        this.tournamentInformation.players = this.tournamentList[i].players
+                    } else if (this.tournamentList[i].name === tournamentName && this.showTournament === true){
+                        this.showTournament = false
+                        this.tournamentInformation.date = ''
+                        this.tournamentInformation.address = ''
+                        this.tournamentInformation.players = ''
+                    }
+                }
+            }
         }
     }
 </script>
@@ -144,5 +186,37 @@
         border: 1px solid #CCCCCC;
         padding: 20px;
         margin-top: 10px;
+    }
+
+    #tournamentList {
+        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+        background-color: #FFFFFF;
+        padding: 20px;
+        margin-top: 10px;
+    }
+
+    #tournamentLeft {
+        float: left;
+        text-align: center;
+        padding-left: 100px;
+        padding-top: 50px;
+    }
+
+    #tournamentRight {
+        float: right;
+        text-align: center;
+        padding-right: 100px;
+        padding-top: 150px;
+    }
+
+    ul {
+        list-style-type: none;
+        text-align: center;
+        margin-left:0;
+        padding-left:0;
     }
 </style>
